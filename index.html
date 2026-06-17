@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#0a0a0f" />
+  
+  <title>Mr White Unlimited</title>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="apple-mobile-web-app-status-bar" content="#0a0a0f" />
+  <link rel="stylesheet" href="style.css" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <div id="screen-welcome" class="screen active">
+    <div class="welcome-bg-glow"></div>
+    <div class="welcome-content">
+      <div class="logo-block">
+        <span class="logo-mr">MR</span>
+        <span class="logo-white">WHITE</span>
+        <span class="logo-unlimited">UNLIMITED</span>
+      </div>
+      <p class="tagline">Who among you… knows nothing?</p>
+
+      <div class="input-group">
+        <label>Number of Players</label>
+        <div class="count-control">
+          <button id="btn-minus" class="count-btn" aria-label="Decrease players">−</button>
+          <span id="player-count-display">6</span>
+          <button id="btn-plus" class="count-btn" aria-label="Increase players">+</button>
+        </div>
+        <p class="count-hint">4 – 15 players</p>
+      </div>
+
+      <div class="input-group">
+        <label>Number of Undercovers</label>
+        <div class="count-control">
+          <button id="btn-u-minus" class="count-btn" aria-label="Decrease undercovers">−</button>
+          <span id="undercover-count-display">1</span>
+          <button id="btn-u-plus" class="count-btn" aria-label="Increase undercovers">+</button>
+        </div>
+        <p id="undercover-hint" class="count-hint" style="transition: color 0.3s; min-height: 1.5em;">0 to 4 undercovers allowed</p>
+      </div>
+
+      <button id="btn-welcome-next" class="btn-primary">NEXT</button>
+    </div>
+  </div>
+
+  <div id="screen-names" class="screen">
+    <div class="welcome-content">
+      <h1 class="discussion-title" style="font-size: 3rem;">PLAYER NAMES</h1>
+      <p class="discussion-sub">Enter the name for each player.</p>
+      
+      <div id="names-container" class="player-list-container"></div>
+      
+      <button id="btn-start" class="btn-primary">START GAME</button>
+    </div>
+  </div>
+
+  <div id="screen-player-turn" class="screen">
+    <div class="turn-header">
+      <p class="turn-label">PLAYER</p>
+      <p id="turn-name" class="turn-number">NAME</p>
+      <p id="turn-progress" class="turn-progress">1 / 6</p>
+    </div>
+
+    <div id="pre-reveal" class="reveal-prompt">
+      <div class="lock-icon">🔒</div>
+      <p class="reveal-instruction">Pass the phone to<br/><strong id="reveal-player-name">Player</strong></p>
+      <p class="reveal-sub">Make sure no one else is watching!</p>
+      <button id="btn-reveal" class="btn-primary">REVEAL MY ROLE</button>
+    </div>
+
+    <div id="role-card" class="role-card hidden">
+      <div id="role-badge" class="role-badge"></div>
+
+      <div id="word-area" class="word-area">
+        <p class="word-label">YOUR WORD</p>
+        <p id="player-word" class="player-word"></p>
+      </div>
+
+      <div id="mrwhite-hint" class="mrwhite-hint hidden">
+        <p>You have <strong>no word</strong>. Listen carefully and bluff!</p>
+      </div>
+
+      <button id="btn-next" class="btn-primary">DONE — PASS PHONE</button>
+    </div>
+  </div>
+
+  <div id="screen-order" class="screen">
+    <div class="discussion-content">
+      <div class="order-header">
+        <h1 class="discussion-title" style="font-size: 3rem;">DESCRIPTION TIME</h1>
+        <p class="discussion-sub">Follow the indicated order to describe your secret word with only a word or phrase.</p>
+      </div>
+      
+      <div id="order-list" class="order-list"></div>
+      
+      <button id="btn-start-discussion" class="btn-primary">START DISCUSSION</button>
+    </div>
+  </div>
+
+  <div id="screen-discussion" class="screen">
+    <div class="discussion-content">
+      <div class="discussion-icon">🗣️</div>
+      <h1 class="discussion-title">DISCUSSION<br/>BEGINS</h1>
+      <p class="discussion-sub">
+        Everyone has seen their role.<br/>
+        Describe your word without saying it.<br/>
+        Find the Undercover and Mr. White!
+      </p>
+
+      <div class="role-summary" id="role-summary">
+        </div>
+
+      <button id="btn-go-voting" class="btn-primary">GO TO VOTING</button>
+    </div>
+  </div>
+
+  <div id="screen-voting" class="screen">
+    <div class="discussion-content">
+      <h1 class="discussion-title" style="font-size: 3rem;">VOTING</h1>
+      <p class="discussion-sub">Who gets eliminated?</p>
+      
+      <div id="voting-list" class="player-list-container">
+        </div>
+      
+      <button id="btn-cancel-voting" class="btn-secondary">BACK TO DISCUSSION</button>
+    </div>
+  </div>
+
+  <div id="screen-mrwhite-guess" class="screen">
+    <div class="discussion-content">
+      <div class="role-badge mrwhite">MR WHITE</div>
+      <p class="discussion-sub">You were eliminated... but you have one last chance to steal the win!</p>
+      
+      <div class="word-area">
+        <p class="word-label">GUESS THE CIVILIAN WORD</p>
+        <input type="text" id="mrwhite-guess-input" class="text-input" placeholder="Enter word..." autocomplete="off"/>
+      </div>
+
+      <button id="btn-submit-guess" class="btn-primary">SUBMIT GUESS</button>
+    </div>
+  </div>
+
+  <div id="screen-end" class="screen">
+    <div class="discussion-content">
+      <h1 id="winner-title" class="discussion-title" style="font-size: 3.5rem;">WINNER</h1>
+      
+      <div class="end-summary">
+        <p>Civilian Word: <strong id="end-civ-word" class="accent-cyan"></strong></p>
+        <p>Undercover Word: <strong id="end-und-word" class="accent-amber"></strong></p>
+      </div>
+
+      <p class="word-label">ALL ROLES</p>
+      <div id="end-roles-list" class="player-list-container" style="max-height: 35vh;">
+        </div>
+
+      <button id="btn-play-again" class="btn-primary">PLAY AGAIN</button>
+    </div>
+  </div>
+
+  <div id="screen-error" class="screen">
+    <div class="error-content">
+      <div class="error-icon">⚠️</div>
+      <h2>Something went wrong</h2>
+      <p>Unable to load words or game logic.</p>
+    </div>
+  </div>
+
+  <div id="modal-overlay" class="modal-overlay hidden">
+    <div id="modal-box" class="modal-box">
+      <p id="modal-title" class="modal-title"></p>
+      <p id="modal-body" class="modal-body"></p>
+      <div id="modal-buttons" class="modal-buttons"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js')
+          .then(registration => {
+            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+          })
+          .catch(err => {
+            console.log('ServiceWorker registration failed: ', err);
+          });
+      });
+    }
+  </script>
+</body>
+</html>
